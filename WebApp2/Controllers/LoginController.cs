@@ -77,31 +77,50 @@ namespace WebApp2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult GantiPass(string email, string password, string confirm)
+        public IActionResult GantiPass(string fullname, string passlama, string passbaru)
         {
             var data = myContextt.Users
-                .Include(x=>x.Employee)
-                .Include(x=>x.Role)
-                .AsNoTracking()
-                .SingleOrDefault(x=>x.Employee.Email.Equals(email) && x.Password.Equals(password));
-            myContextt.SaveChanges();
-            if(data != null)
+                 .Include(x => x.Employee)
+                 .SingleOrDefault(x => x.Employee.FullName.Equals(fullname) && x.Password.Equals(passlama));
+            if (data != null)
             {
-                User user = new User()
-                {
-                    Id = data.Id,
-                    Password = confirm,
-                    RoleId = data.RoleId,
-                    EmployeeId = data.EmployeeId
-                };
-                myContextt.Entry(user).State = EntityState.Modified;
+              data.Password = passbaru;
+
+                myContextt.Entry(data).State = EntityState.Modified;
                 var resultUser = myContextt.SaveChanges();
-                if(resultUser > 0)
+                if (resultUser > 0)
                 {
                     return RedirectToAction("Login", "Login");
                 }
             }
             return View();
         }
+
+        public IActionResult LupaPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult LupaPass(string passlama, string fullname, string passbaru)
+        {
+                var data = myContextt.Users
+                      .Include(x => x.Employee)
+                      .SingleOrDefault(x => x.Employee.FullName.Equals(fullname) && x.Password.Equals(passlama));
+            if (data != null)
+            {
+                data.Password = passbaru;
+    
+                myContextt.Entry(data).State = EntityState.Modified;
+                var resultUser = myContextt.SaveChanges();
+                if (resultUser > 0)
+                {
+                    return RedirectToAction("Login", "Login");
+                }
+            }
+            return View();
+        }
+
     }
-}
+  }
+

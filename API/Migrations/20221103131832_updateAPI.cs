@@ -4,7 +4,7 @@
 
 namespace API.Migrations
 {
-    public partial class duplikatAPI : Migration
+    public partial class updateAPI : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,7 +73,8 @@ namespace API.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
@@ -82,8 +83,8 @@ namespace API.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Employees_Id",
-                        column: x => x.Id,
+                        name: "FK_Users_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -99,6 +100,11 @@ namespace API.Migrations
                 name: "IX_Departments_DivisionId",
                 table: "Departments",
                 column: "DivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_EmployeeId",
+                table: "Users",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",

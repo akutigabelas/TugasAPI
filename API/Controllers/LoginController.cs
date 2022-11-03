@@ -1,6 +1,7 @@
 ﻿using API.Context;
 using API.Handlers;
 using API.Models;
+using API.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,24 +12,20 @@ namespace API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        MyContextt myContextt;
-
-        public LoginController(MyContextt myContextt)
+        private LoginRepositories repo;
+        public LoginController(LoginRepositories loginRepo)
         {
-            this.myContextt = myContextt;
+           repo = loginRepo;
         }
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(string email, string password)
+        public ActionResult Login(string email, string password)
         {
+            try
+            {
 
-            var data = myContextt.Users
-                .Include(x => x.Employee)
-                .Include(x => x.Role)
-                .SingleOrDefault(x => x.Employee.Email.Equals(email));
-
-            var validasiPass = Hashing.ValidatePassword(password, data.Password);
-            if (data != null && validasiPass)
+            var data = repo.Login(email, password); 
+            if (data == 1)
             {
                 return Ok(new
                 {
@@ -43,103 +40,128 @@ namespace API.Controllers
                     StatusCode = 400,
                     Message = "Email atau Password Salah"
                 });
+                }
+
+            } 
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Email atau Password Salah"
+                });
             }
-            
+
+        }
+        [HttpPost]
+        [Route("Register")]
+        public ActionResult Register(string fullName, string email, string birthDate, string password)
+        {
+            try
+            {
+                var data = repo.Register(fullName, email, birthDate, password);
+                if (data == 1)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Akun berhasil"
+
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 200,
+                        Message = "Akun gagal dibuat"
+                    });
+
+                }
+          }
+            catch (Exception ex)
+             {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Akun gagal dibuat"
+                });
+            }
+                return Ok();
         }
 
         [HttpPost]
-        public IActionResult Register(string fullName, string email, string birthDate, string password)
+        [Route("ChangePassword")]
+        public IActionResult ChangePassword(string fullname, string passlama, string passbaru)
         {
-            Employee employee = new Employee()
+            try
             {
-                FullName = fullName,
-                Email = email,
-                BirthDate = birthDate
-            };
-            myContextt.Employees.Add(employee);
-            var cekemail = myContextt.Employees.SingleOrDefault(x => x.Email.Equals(email));
-            if (cekemail == null)
-            {
-                var result = myContextt.SaveChanges();
-                if (result > 0)
-                {
-                    var id = myContextt.Employees.SingleOrDefault(x => x.Email.Equals(email)).Id;
-                    User user = new User()
-                    {
-                        Id = id,
-                        Password = Hashing.HashPassword(password),
-                        RoleId = 1
-                    };
-                    myContextt.Users.Add(user);
-                    var resultUser = myContextt.SaveChanges();
-                    if (resultUser > 0)
-                    {
-                        return Ok(new
-                        {
-                            StatusCode = 200,
-                            Message = "Akun berhasil"
 
-                        });
-                    }
-                    else
+           var data = repo.ChangePassword(fullname, passlama, passbaru);
+            if(data == 1)
+            {
+                    return Ok(new
                     {
-                        return BadRequest(new
-                        {
-                            StatusCode = 200,
-                            Message = "Akun gagal dibuat"
-                        });
-                    }
+                        StatusCode = 200,
+                        Message = "Password berhasil diganti berhasil"
+
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 200,
+                        Message = "Password gagal diganti"
+                    });
+
                 }
             }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Gagal Ganti Password"
+                });
+            }
+            return Ok();
         }
 
-        //[HttpPost]
-        //public IActionResult GantiPass(string fullname, string passlama, string passbaru)
-        //{
-        //    var data = myContextt.Users
-        //         .Include(x => x.Employee)
-        //         .SingleOrDefault(x => x.Employee.FullName.Equals(fullname));
+        [HttpPost]
+        [Route("ForgotPassword")]
+        public IActionResult ForgotPassword(string fullname, string passlama, string passbaru)
+        {
+            try
+            {
+                var data = repo.ForgotPassword(fullname, passlama, passbaru);
+                if (data == 1)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Password berhasil diganti berhasil"
 
-        //    var validasiPass = Hashing.ValidatePassword(passlama, data.Password);
-        //    if (data != null)
-        //    {
-        //        data.Password = Hashing.HashPassword(passbaru);
-
-        //        myContextt.Entry(data).State = EntityState.Modified;
-        //        var resultUser = myContextt.SaveChanges();
-        //        if (resultUser > 0)
-        //        {
-        //            return RedirectToAction("Login", "Login");
-        //        }
-        //    }
-        //    return View();
-        //}
-
-        //public IActionResult LupaPass()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult LupaPass(string passlama, string fullname, string passbaru)
-        //{
-        //    var data = myContextt.Users
-        //          .Include(x => x.Employee)
-        //          .SingleOrDefault(x => x.Employee.FullName.Equals(fullname));
-        //    var validasiPass = Hashing.ValidatePassword(passlama, data.Password);
-        //    if (data != null)
-        //    {
-        //        data.Password = Hashing.HashPassword(passbaru);
-
-        //        myContextt.Entry(data).State = EntityState.Modified;
-        //        var resultUser = myContextt.SaveChanges();
-        //        if (resultUser > 0)
-        //        {
-        //            return RedirectToAction("Login", "Login");
-        //        }
-        //    }
-        //    return View();
-        //}
-
+                    });
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 200,
+                        Message = "Password gagal diganti"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Gagal Ganti Password"
+                });
+            }
+            return Ok();
+        }
     }
 }

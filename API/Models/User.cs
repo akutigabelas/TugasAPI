@@ -23,18 +23,18 @@ namespace API.Models
         }
 
         [Key]
-        [ForeignKey("Employee")]
-        [JsonIgnore]
         public int Id { get; set; }
         public string Password { get; set; }
 
+        [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
         [ForeignKey("Role")]
-        [JsonIgnore]
         public int RoleId { get; set; }
 
+        [JsonIgnore]
         public Role? Role { get; set; }
 
+        [JsonIgnore]
         public Employee? Employee { get; set; }
     }
 }

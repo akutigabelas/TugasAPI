@@ -11,7 +11,7 @@ builder.Services.AddScoped<DepartmentRepositories>();
 builder.Services.AddScoped<RoleRepositories>();
 builder.Services.AddScoped<EmployeeRepositories>();
 builder.Services.AddScoped<UserRepositories>();
-builder.Services.AddScoped<LoginController>();
+builder.Services.AddScoped<LoginRepositories>();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<MyContextt>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));

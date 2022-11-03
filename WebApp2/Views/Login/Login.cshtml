@@ -7,7 +7,19 @@
 
 <h1>Login</h1>
 <form method="post" asp-action="Login">
-    <input name="email" type= "text"/>
-    <input name="password" type="text"/>
+ <p>
+ <input name="email" type= "text"/>
+ </p> 
+<p>
+<input name="password" type="text"/>
+</p>
+<p>
     <button type="submit">Login</button>
+</p>
+    <p>
+        <a asp-controller="Login" asp-action="Register">Daftar Akun</a>
+    </p>
+   <p> 
+       <a asp-controller="Login" asp-action="GantiPass">Ganti Password</a>
+   </p>
 </form>

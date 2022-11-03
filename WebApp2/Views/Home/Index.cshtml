@@ -1,12 +1,14 @@
 ﻿@model WebApp2.Models.LoginVM
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Name: @Html.DisplayFor(model => model.FullName) </p><p></p>
-    <p>Email: @Html.DisplayFor(model => model.Email)</p><p></p>
-    <p>Role: @Html.DisplayFor(model => model.Nama)</p><p></p>
+<div>
+    <p> Name: <input placeholder="@Context.Session.GetString("FullName")" readonly />   </p>
+    <p>Email: <input placeholder="@Context.Session.GetString("Email")" readonly/></p>
+    <p>Role: <input placeholder="@Context.Session.GetString("Role")" readonly/></p>
+    <a asp-controller="Login" asp-action="GantiPass">Ganti Password</a>
+    <a asp-controller="Login" asp-action="Login">Sign Out</a>
+
 </div>

@@ -21,8 +21,16 @@ namespace WebApp2.Controllers
 
         public IActionResult Index()
         {
-            var data = myContextt.Divisions.ToList();
-            return View(data);
+          var role = HttpContext.Session.GetString("Role");
+            if(role == "Staff")
+            {
+                var data = myContextt.Divisions.ToList();
+                return View(data);
+            } else if( role == null)
+            {
+                return RedirectToAction("UnAuthorized", "ErrorPage");
+            }
+            return RedirectToAction("Forbidden", "ErrorPage");
         }
 
         public IActionResult Details(int id)
@@ -40,6 +48,8 @@ namespace WebApp2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Division division)
         {
+            division.CreatedBy = HttpContext.Session.GetString("FullName");
+            division.CreatedDate = DateTime.Now.ToLocalTime();
             myContextt.Divisions.Add(division);
             var result = myContextt.SaveChanges();
             if (result > 0)

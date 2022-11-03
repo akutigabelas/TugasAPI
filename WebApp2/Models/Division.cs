@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-
+using WebApp2.Base;
 
 namespace WebApp2.Models
 {
-    public class Division
+    public class Division : BaseModel
     {
         public  Division(int Id, string Nama)
         {

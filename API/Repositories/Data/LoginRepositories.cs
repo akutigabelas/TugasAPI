@@ -16,7 +16,7 @@ namespace API.Repositories.Data
             myContextt = contextt;
         }
 
-        public ArrayList<int> Login(string email, string password)
+        public ArrayList Login(string email, string password)
         {
             var data = myContextt.Users
                           .Include(x => x.Employee)
@@ -26,10 +26,15 @@ namespace API.Repositories.Data
             if (data != null/* && Hashing.ValidatePassword(password, data.Password)*/)
             {
                 // var result = myContextt.SaveChanges();
-               ArrayList<int> result = new ArrayList<int>();
+               ArrayList result = new ArrayList();
                 result.Add(data.Id);
+                result.Add(data.Employee.FullName);
+                result.Add(data.Employee.Email);
+                result.Add(data.Role.Nama);
+
+                return result;
             }
-            return 0;
+            return null;
         }   
         
         public int Register(string fullName, string email, string birthDate, string password)

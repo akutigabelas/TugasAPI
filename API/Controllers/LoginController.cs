@@ -24,20 +24,27 @@ namespace API.Controllers
             try
             {
 
-            var data = repo.Login(email, password); 
-            if (data == 1)
+            var data = repo.Login(email, password);
+            
+            if (data != null)
             {
                 return Ok(new
                 {
                     StatusCode = 200,
-                    Message = "Berhasil Login"
+                    Message = "Berhasil Login",
+                    Data = new
+                    {
+                       Email = data[2],
+                       FullName = data[1],
+                       Role = data[3]
+                    }
                 });
             }
             else
             {
                 return BadRequest(new
                 {
-                    StatusCode = 400,
+                    StatusCode = 200,
                     Message = "Email atau Password Salah"
                 });
                 }

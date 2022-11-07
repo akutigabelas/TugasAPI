@@ -5,6 +5,10 @@ using API.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -12,9 +16,11 @@ namespace API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        public IConfiguration configuration;
         private LoginRepositories repo;
-        public LoginController(LoginRepositories loginRepo)
+        public LoginController(LoginRepositories loginRepo, IConfiguration config)
         {
+           configuration = config;
            repo = loginRepo;
         }
         [HttpPost]
@@ -23,41 +29,42 @@ namespace API.Controllers
         {
             try
             {
+                var data = repo.Login(email, password);
+                if (data != null)
+                {
+                    //create claims details based on the user information
+                    var claims = new[] {
+                        new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("Id", data[0].ToString()),
+                        new Claim("Email", data[2].ToString()),
+                        new Claim("Fullname", data[1].ToString()),
+                        new Claim("Role", data[3].ToString())
+                    };
 
-            var data = repo.Login(email, password);
-            
-            if (data != null)
-            {
-                return Ok(new
-                {
-                    StatusCode = 200,
-                    Message = "Berhasil Login",
-                    Data = new
-                    {
-                       Email = data[2],
-                       FullName = data[1],
-                       Role = data[3]
-                    }
-                });
-            }
-            else
-            {
-                return BadRequest(new
-                {
-                    StatusCode = 200,
-                    Message = "Email atau Password Salah"
-                });
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        configuration["Jwt:Issuer"],
+                        configuration["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(10),
+                        signingCredentials: signIn);
+
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
-
-            } 
-            catch (Exception ex)
-            {
-                return BadRequest(new
+                else
                 {
-                    StatusCode = 400,
-                    Message = "Email atau Password Salah"
-                });
+                    return BadRequest("Invalid credentials");
+                }
             }
+            catch { 
+                {
+                    return BadRequest();
+                }
+            }
+
 
         }
         [HttpPost]

@@ -5,6 +5,7 @@ using System.Collections;
 using WebApp2.Handlers;
 
 
+
 namespace API.Repositories.Data
 {
     public class LoginRepositories
@@ -27,7 +28,7 @@ namespace API.Repositories.Data
             {
                 // var result = myContextt.SaveChanges();
                ArrayList result = new ArrayList();
-                result.Add(data.Id);
+                result.Add(data.Id.ToString());
                 result.Add(data.Employee.FullName);
                 result.Add(data.Employee.Email);
                 result.Add(data.Role.Nama);

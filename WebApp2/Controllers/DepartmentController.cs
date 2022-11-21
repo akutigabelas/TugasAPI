@@ -11,7 +11,6 @@ namespace WebApp2.Controllers
     public class DepartmentController : Controller
     {
         MyContextt myContextt;
-
         public DepartmentController(MyContextt myContextt)
         {
             this.myContextt = myContextt;
@@ -19,7 +18,7 @@ namespace WebApp2.Controllers
 
 
         // GET: DepartmentController
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var data = myContextt.Departments.ToList();
             return View(data);

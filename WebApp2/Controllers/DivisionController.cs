@@ -21,16 +21,19 @@ namespace WebApp2.Controllers
 
         public IActionResult Index()
         {
-          var role = HttpContext.Session.GetString("Role");
-            if(role == "Staff")
-            {
-                var data = myContextt.Divisions.ToList();
-                return View(data);
-            } else if( role == null)
-            {
-                return RedirectToAction("UnAuthorized", "ErrorPage");
-            }
-            return RedirectToAction("Forbidden", "ErrorPage");
+          //var role = HttpContext.Session.GetString("Role");
+          //  if(role == "Staff")
+          //  {
+          //      var data = myContextt.Divisions.ToList();
+          //      return View(data);
+          //  } else if( role == null)
+          //  {
+          //      return RedirectToAction("UnAuthorized", "ErrorPage");
+          //  }
+          //  return RedirectToAction("Forbidden", "ErrorPage");
+            var data = myContextt.Divisions.ToList();
+            return View(data);
+
         }
 
         public IActionResult Details(int id)

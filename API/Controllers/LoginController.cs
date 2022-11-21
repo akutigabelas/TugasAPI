@@ -40,7 +40,7 @@ namespace API.Controllers
                         new Claim("Id", data[0].ToString()),
                         new Claim("Email", data[2].ToString()),
                         new Claim("Fullname", data[1].ToString()),
-                        new Claim("Role", data[3].ToString())
+                        new Claim("role", data[3].ToString())
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -74,34 +74,42 @@ namespace API.Controllers
             try
             {
                 var data = repo.Register(fullName, email, birthDate, password);
-                if (data == 1)
+                if (data != null)
                 {
-                    return Ok(new
-                    {
-                        StatusCode = 200,
-                        Message = "Akun berhasil"
+                    //create claims details based on the user information
+                    var claims = new[] {
+                        new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("FullName", fullName),
+                        new Claim("Email", email),
+                        new Claim("Birthdate", birthDate),
+                        new Claim("Password", password)
+                    };
 
-                    });
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        configuration["Jwt:Issuer"],
+                        configuration["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(10),
+                        signingCredentials: signIn);
+
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
                 else
                 {
-                    return BadRequest(new
-                    {
-                        StatusCode = 200,
-                        Message = "Akun gagal dibuat"
-                    });
-
+                    return BadRequest("Invalid credentials");
                 }
-          }
-            catch (Exception ex)
-             {
-                return BadRequest(new
-                {
-                    StatusCode = 400,
-                    Message = "Akun gagal dibuat"
-                });
             }
-                return Ok();
+            catch
+            {
+                {
+                    return BadRequest();
+                }
+            }
+
         }
 
         [HttpPost]
@@ -111,36 +119,42 @@ namespace API.Controllers
             try
             {
 
-           var data = repo.ChangePassword(fullname, passlama, passbaru);
-            if(data == 1)
-            {
-                    return Ok(new
-                    {
-                        StatusCode = 200,
-                        Message = "Password berhasil diganti berhasil"
+                var data = repo.ChangePassword(fullname, passlama, passbaru);
+                if (data != null)
+                {
+                    //create claims details based on the user information
+                    var claims = new[] {
+                        new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("FullName", fullname),
+                        new Claim("Password Lama", passlama),
+                        new Claim("Password Baru", passbaru)
+                    };
 
-                    });
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        configuration["Jwt:Issuer"],
+                        configuration["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(10),
+                        signingCredentials: signIn);
+
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
                 else
                 {
-                    return BadRequest(new
-                    {
-                        StatusCode = 200,
-                        Message = "Password gagal diganti"
-                    });
-
+                    return BadRequest("Invalid credentials");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(new
                 {
-                    StatusCode = 400,
-                    Message = "Gagal Ganti Password"
-                });
+                    return BadRequest();
+                }
+                }
             }
-            return Ok();
-        }
 
         [HttpPost]
         [Route("ForgotPassword")]
@@ -149,33 +163,41 @@ namespace API.Controllers
             try
             {
                 var data = repo.ForgotPassword(fullname, passlama, passbaru);
-                if (data == 1)
+                if (data != null)
                 {
-                    return Ok(new
-                    {
-                        StatusCode = 200,
-                        Message = "Password berhasil diganti berhasil"
+                    //create claims details based on the user information
+                    var claims = new[] {
+                        new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("FullName", fullname),
+                        new Claim("Password Lama", passlama),
+                        new Claim("Password Baru", passbaru)
+                    };
 
-                    });
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        configuration["Jwt:Issuer"],
+                        configuration["Jwt:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(10),
+                        signingCredentials: signIn);
+
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
                 else
                 {
-                    return BadRequest(new
-                    {
-                        StatusCode = 200,
-                        Message = "Password gagal diganti"
-                    });
+                    return BadRequest("Invalid credentials");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(new
                 {
-                    StatusCode = 400,
-                    Message = "Gagal Ganti Password"
-                });
+                    return BadRequest();
+                }
             }
-            return Ok();
+
+            }
         }
-    }
 }

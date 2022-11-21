@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using API.Context;
 using API.Models;
 using API.Repositories.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Staff")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -29,6 +31,7 @@ namespace API.Controllers
                         {
                             StatusCode = 200,
                             Message = "data masih kosong"
+                           
                         });
                 }
                 else
@@ -36,7 +39,8 @@ namespace API.Controllers
                     return Ok(new
                     {
                         Status = 200,
-                        Message = "data tidak kosong"
+                        Message = "data tidak kosong",
+                        Data = data
                     });
                 }
             }

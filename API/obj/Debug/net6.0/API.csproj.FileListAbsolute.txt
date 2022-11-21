@@ -64,3 +64,6 @@ E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\runtimes\win\lib\netsta
 E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\BCrypt.Net-Core.dll
 E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\startbootstrap-sb-admin-2-gh-pages\package-lock.json
+E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\startbootstrap-sb-admin-2-gh-pages\package.json
+E:\13\metrodata\fundamental\WebApp2\API\bin\Debug\net6.0\startbootstrap-sb-admin-2-gh-pages\vendor\fontawesome-free\package.json

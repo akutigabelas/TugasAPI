@@ -7,10 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyContextt>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
-//builder.Services.AddSession(options =>
-//{
-//    options.IdleTimeout = TimeSpan.FromMinutes(15);
-//});
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(15);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,12 +21,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-//app.UseAuthorization();
-//app.UseSession();
+app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

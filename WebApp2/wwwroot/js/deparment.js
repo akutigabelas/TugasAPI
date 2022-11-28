@@ -4,7 +4,8 @@
             url: 'https://localhost:7240/api/Department',
             dataSrc: 'data',
             "headers": {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+                'Authorization': "Bearer " + sessionStorage.getItem("token")
             },
             "type": "GET",
         },
@@ -36,6 +37,34 @@
     });
 });
 
+function chartPie() {
+    $.ajax({
+        url: `https://localhost:7240/api/Department`,
+        method: "GET",
+        success: function () {
+            //console.log(data);
+            var label = [];
+            var value = [];
+            for (var i in data) {
+                label.push(data[i].Nama);
+                value.push(data[i].DivisionId);
+            }
+            var ctx = document.getElementById("pieChart");
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Nama", "DivisionId"],
+                    datasets: [{
+                        label: 'Jumlah Department',
+                        //data: [12.21, 15.58, 11.25, 8.32],
+                        backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+                        data: value
+                    }],
+                },
+            });
+        }
+    });
+}
 
 function tableDepartment(id) {
     $.ajax({
@@ -133,9 +162,25 @@ function createDepartment() {
         let temp = "";
         temp += `    
             <input type="hidden" class="form-control" id="hideId" readonly placeholder="" value="0">
-            <h5>nama: <h5><input type="text" class="form-control" id="departName">
-            <h5>Division Id: <h5><input type="text" class="form-control" id="divId">
+            <form class="row g-3 needs-validation" novalidate>
+              <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="departName" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="divId" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-12">
             <button type="button" class="btn btn-primary" id="editName" onclick="saveCreateDepartment()">Save</button>
+            </div>
+            </form>
             `;
         $("#createData").html(temp);
         console.log(res.data.id);
@@ -143,6 +188,7 @@ function createDepartment() {
         console.log(err);
     });
 }
+
 
 function saveCreateDepartment() {
     var Nama = $('#departName').val();

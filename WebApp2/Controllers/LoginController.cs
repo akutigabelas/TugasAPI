@@ -22,15 +22,15 @@ namespace WebApp2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(LoginVM loginVM)
         {
 
             var data = myContextt.Users
                 .Include(x => x.Employee)
                 .Include(x => x.Role)
-                .SingleOrDefault(x => x.Employee.Email.Equals(email));
+                .SingleOrDefault(x => x.Employee.Email.Equals(loginVM.Email));
            
-            var validasiPass = Hashing.ValidatePassword(password, data.Password);
+            var validasiPass = Hashing.ValidatePassword(loginVM.Password, data.Password);
             if(data != null && validasiPass)
             {
 

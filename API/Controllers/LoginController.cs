@@ -1,6 +1,7 @@
 ﻿using API.Context;
 using API.Handlers;
 using API.Models;
+using API.ViewModel;
 using API.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,11 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route("Login")]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login([FromBody] LoginVm loginVM)
         {
             try
             {
-                var data = repo.Login(email, password);
+                var data = repo.Login(loginVM);
                 if (data != null)
                 {
                     //create claims details based on the user information
@@ -52,20 +53,31 @@ namespace API.Controllers
                         expires: DateTime.UtcNow.AddMinutes(10),
                         signingCredentials: signIn);
 
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    //return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    string tokenCode = new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Berhasil login",
+                        Token = tokenCode
+                    });
                 }
-                else
+                else if (data == null)
                 {
-                    return BadRequest("Invalid credentials");
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "email or password incorrect"
+                    });
                 }
             }
-            catch { 
+            catch
+            {
                 {
                     return BadRequest();
                 }
             }
-
-
+            return Ok();
         }
         [HttpPost]
         [Route("Register")]

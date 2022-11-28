@@ -1,5 +1,6 @@
 ﻿using API.Context;
 using API.Models;
+using API.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using WebApp2.Handlers;
@@ -17,14 +18,14 @@ namespace API.Repositories.Data
             myContextt = contextt;
         }
 
-        public ArrayList Login(string email, string password)
+        public ArrayList Login(LoginVm loginVM)
         {
             var data = myContextt.Users
                           .Include(x => x.Employee)
                           .Include(x => x.Role)
-                          .SingleOrDefault(x => x.Employee.Email.Equals(email));
+                          .SingleOrDefault(x => x.Employee.Email.Equals(loginVM.Email));
          
-            if (data != null/* && Hashing.ValidatePassword(password, data.Password)*/)
+            if (data != null && Hashing.ValidatePassword(loginVM.Password, data.Password))
             {
                 // var result = myContextt.SaveChanges();
                ArrayList result = new ArrayList();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PLihvsw4jqPhQKlCREzeW1gbbtoQcX6jPmhqHVsJoBM=",
+  "Hash": "cTNblroGosuidFQynBFdScC/NTa/KEQrzYWkUpiQ7GE=",
   "Source": "WebApp2",
   "BasePath": "_content/WebApp2",
   "Mode": "Default",
@@ -68,6 +68,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\demo\\chart-area-demo.js"
     },
     {
+      "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\assets\\demo\\chart-bar.js",
+      "SourceId": "WebApp2",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\",
+      "BasePath": "_content/WebApp2",
+      "RelativePath": "assets/demo/chart-bar.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\demo\\chart-bar.js"
+    },
+    {
       "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\assets\\demo\\chart-bar-demo.js",
       "SourceId": "WebApp2",
       "SourceType": "Discovered",
@@ -83,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\demo\\chart-bar-demo.js"
+    },
+    {
+      "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\assets\\demo\\chart-pie.js",
+      "SourceId": "WebApp2",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\",
+      "BasePath": "_content/WebApp2",
+      "RelativePath": "assets/demo/chart-pie.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\demo\\chart-pie.js"
     },
     {
       "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\assets\\demo\\chart-pie-demo.js",
@@ -253,6 +287,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Division.js"
+    },
+    {
+      "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\js\\login.js",
+      "SourceId": "WebApp2",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\",
+      "BasePath": "_content/WebApp2",
+      "RelativePath": "js/login.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\login.js"
     },
     {
       "Identity": "E:\\13\\metrodata\\fundamental\\WebApp2\\WebApp2\\wwwroot\\js\\site.js",

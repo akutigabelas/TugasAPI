@@ -16,8 +16,61 @@
          <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="row">
+        <div class="col-6">
+            <div class="card card-primary mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Bar Chart Example
+                </div>
+                <div class="card-body">
+                    <div id="area-chart">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+      @*  <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Pie Chart Example
+                </div>      
+                <div class="card-body" id="chart">
+                    <canvas id="pieChart" width="100%" height="50"></canvas>
+                    </div>
+                <div id="legend"></div>
+
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>*@
+        <div class="col-6">
+            <div class="card card-primary mb-4">
+                <div class="card-header">
+                        <i class="fas fa-chart-pie me-1"></i>
+                        Pie Chart Example
+                    </div>
+                <div class="card-body">
+                    <div id="stat-chart">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+      </div>
     <div class="container">
+        <div class="row">
         <!-- Trigger the modal with a button -->
+    <div class="container-fluid px-4">
+        @*     <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+        *@     <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+            </di>
+            <div class="card-body">
         <div id="btn">
     <button type="button" class="btn btn-info btn-lg" id="btnCreate" data-bs-toggle="modal" data-bs-target="#modCreate" onclick="createDepartment()">Create Department</button>
         </div>
@@ -55,6 +108,15 @@
             </tr>
         </thead>
     </table>
+        </div>
+                @*<table id="datatablesSimple">
+                <tbody>
+
+                </tbody>
+                </table>*@
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,6 +171,7 @@
             }
         </tbody>
     </table>*@
+     
 
     @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>*@
     @*<script src="~/js/site.js"></script*@
